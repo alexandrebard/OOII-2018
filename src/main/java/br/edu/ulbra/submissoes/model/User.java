@@ -22,6 +22,11 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    //alexandre
+    @ManyToMany(mappedBy = "roles2")
+    private List<Submissoes> users;
+    //alexandre
+    
     @ManyToMany
     @JoinTable(name="user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
