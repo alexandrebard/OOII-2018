@@ -26,7 +26,10 @@ public class User {
     @ManyToMany(mappedBy = "roles2")
     private List<Submissoes> users;
     //alexandre
-    
+
+    @ManyToMany(mappedBy = "roles3")
+    private List<Event> user;
+
     @ManyToMany
     @JoinTable(name="user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
