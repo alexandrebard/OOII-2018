@@ -52,12 +52,10 @@ public class UserService {
     }
 
     public User findById(Long userId) throws UserException {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()){
-            return user.get();
-        } else {
+        User user = userRepository.findOne(userId);
+        if (user == null )
             throw new UserException("Usuário não encontrado");
-        }
+        return user;
     }
 
     public void delete(Long userId) throws UserException{

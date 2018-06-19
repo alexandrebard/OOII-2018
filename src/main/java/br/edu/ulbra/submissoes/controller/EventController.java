@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/evento")
+@RequestMapping(value = "/evento")
 public class EventController {
 
     //GET  /evento             - Página que lista todos os eventos que o usuário criou
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation(value="Página que lista todos os eventos que o usuário criou.")
     public String listUserEvents(){
-        return "Listar todos eventos do usuário logado";
+        return "user/evento";
     }
 
     //GET  /evento/{id}        - Página que lista os detalhes de um determinado evento e um link para a submissão de artigo. Caso o evento tenha sido criado pelo usuário corrente, permite a edição do evento.
