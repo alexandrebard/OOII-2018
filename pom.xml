@@ -12,6 +12,9 @@
 	<description>Projeto para submissões de artigos científicos em eventos</description>
 
 	<parent>
+
+
+
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.7.RELEASE</version>
