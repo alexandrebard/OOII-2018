@@ -3,43 +3,48 @@ package br.edu.ulbra.submissoes.model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 public class Event {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String responsavel;
+    private String name;
 
     @Column(nullable = false)
-    private String nome;
+    private Timestamp creationDate;
 
     @Column(nullable = false)
-    private String data;
+    private Timestamp startingDate;
 
     @Column(nullable = false)
-    private String dataAbertura;
+    private Timestamp endingDate;
 
-    @Column(nullable = false)
-    private String dataFechamento;
+    @ManyToOne(optional = false)
+    private User user;
 
+    @OneToMany(mappedBy="event", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    private List<Submission> submissions;
 
-    @ManyToMany
-    @JoinTable(name="event_user",
-            joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
-    )
-    private List<User> roles3;
-
-    public List<User> getRoles() {
-        return roles3;
+    public User getUser() {
+        return user;
     }
 
-    public void setRoles(List<User> roles2) {
-        this.roles3 = roles2;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Submission> getSubmissions() {
+        return submissions;
+    }
+
+    public void setSubmissions(List<Submission> submissions) {
+        this.submissions = submissions;
     }
 
     public Long getId() {
@@ -50,43 +55,35 @@ public class Event {
         this.id = id;
     }
 
-    public String getResponsavel() {
-        return responsavel;
+    public String getName() {
+        return name;
     }
 
-    public void setResponsavel(String responsavel) {
-        this.responsavel = responsavel;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUsername() {
-        return nome;
+    public Timestamp getCreationDate() {
+        return creationDate;
     }
 
-    public void setUsername(String nome) {
-        this.nome = nome;
+    public void setCreationDate(Timestamp creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public String getData() {
-        return data;
+    public Timestamp getStartingDate() {
+        return startingDate;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setStartingDate(Timestamp startingDate) {
+        this.startingDate = startingDate;
     }
 
-    public String getDataAbertura() {
-        return dataAbertura;
+    public Timestamp getEndingDate() {
+        return endingDate;
     }
 
-    public void setDataAbertura(String dataAbertura) {
-        this.dataAbertura = dataAbertura;
-    }
-
-    public String getDataFechamento() {
-        return dataFechamento;
-    }
-
-    public void setDataFechamento(String data) {
-        this.dataFechamento = dataFechamento;
+    public void setEndingDate(Timestamp endingDate) {
+        this.endingDate = endingDate;
     }
 }

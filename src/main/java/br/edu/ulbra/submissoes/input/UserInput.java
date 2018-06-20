@@ -13,7 +13,7 @@ public class UserInput {
     @ApiModelProperty(example = "user@dominio.com", notes = "E-mail de contato")
     private String email;
     @ApiModelProperty(example = "Joao Fulano", notes = "Nome do usuário")
-    private String nome;
+    private String name;
     @ApiModelProperty(example = "password1", notes = "Senha para login")
     private String password;
     @ApiModelProperty(example = "password1", notes = "Confirmação de senha para cadastro/atualização")
@@ -43,12 +43,12 @@ public class UserInput {
         this.email = email;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String nome) {
+        this.name = nome;
     }
 
     public String getPassword() {
