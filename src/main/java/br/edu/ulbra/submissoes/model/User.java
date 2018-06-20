@@ -36,6 +36,24 @@ public class User {
         return submissions;
     }
 
+
+    public User() {
+    }
+
+    /**
+     *
+     * @param username
+     * @param email
+     * @param name
+     * @param password
+     */
+    public User(String username, String email, String name, String password) {
+        this.username = username;
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
+
     public void setSubmissions(List<Submission> submissions) {
         this.submissions = submissions;
     }
