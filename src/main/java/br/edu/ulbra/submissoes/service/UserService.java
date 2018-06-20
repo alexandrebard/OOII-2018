@@ -32,7 +32,7 @@ public class UserService {
         if (StringUtils.isEmpty(userInput.getUsername())){
             throw new UserException("Username não informado");
         }
-        if (StringUtils.isEmpty(userInput.getNome())){
+        if (StringUtils.isEmpty(userInput.getName())){
             throw new UserException("Nome não informado");
         }
         if (StringUtils.isEmpty(userInput.getEmail())){

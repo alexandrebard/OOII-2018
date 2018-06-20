@@ -15,7 +15,7 @@ public class EventController {
     @GetMapping
     @ApiOperation(value="Página que lista todos os eventos que o usuário criou.")
     public String listUserEvents(){
-        return "user/evento";
+        return "event/evento";
     }
 
     //GET  /evento/{id}        - Página que lista os detalhes de um determinado evento e um link para a submissão de artigo. Caso o evento tenha sido criado pelo usuário corrente, permite a edição do evento.
