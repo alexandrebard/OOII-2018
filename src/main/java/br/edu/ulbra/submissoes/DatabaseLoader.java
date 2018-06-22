@@ -23,7 +23,6 @@ public class DatabaseLoader {
         this.initializeDB();
     }
 
-
     public void initializeDB(){
         User user = userRepository.saveAndFlush(new User("teste", "teste@teste.com", "Nome Teste", "1234"));
 

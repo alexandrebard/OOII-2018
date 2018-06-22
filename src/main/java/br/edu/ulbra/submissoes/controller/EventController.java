@@ -6,6 +6,7 @@ import br.edu.ulbra.submissoes.model.User;
 import br.edu.ulbra.submissoes.repository.EventRepository;
 import br.edu.ulbra.submissoes.repository.UserRepository;
 import br.edu.ulbra.submissoes.service.EventService;
+import br.edu.ulbra.submissoes.service.SecurityService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,27 +20,43 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("evento")
 public class EventController {
+
     private EventService eventService;
-
-    @Autowired
-    private EventRepository repository;
-
-    @Autowired
+    private EventRepository eventRepository;
     private UserRepository userRepository;
+    private SecurityService securityService;
 
-    //GET  /evento             - Página que lista todos os eventos que o usuário criou
+    @Autowired
+    private void securityService(EventService eventService){
+        this.eventService = eventService;
+    }
+
+    @Autowired
+    private void securityService(EventRepository eventRepository){
+        this.eventRepository = eventRepository;
+    }
+
+    @Autowired
+    private void securityService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
+
+    @Autowired
+    private void securityService(SecurityService securityService){
+        this.securityService = securityService;
+    }
+
     @GetMapping
     @ApiOperation(value="Página que lista todos os eventos que o usuário criou.")
     public ModelAndView listUserEvents(){
         ModelAndView  view = new ModelAndView("event/evento");
-        view.addObject("eventos", repository.findAll());
+        view.addObject("eventos", eventRepository.findAll());
         return view;
     }
 
-    //GET  /evento/{id}        - Página que lista os detalhes de um determinado evento e um link para a submissão de artigo. Caso o evento tenha sido criado pelo usuário corrente, permite a edição do evento.
     @GetMapping("/{eventId}")
     public ModelAndView showEvent(@PathVariable("eventId") Long eventId){
-        Event event = repository.findOne(eventId);
+        Event event = eventRepository.findOne(eventId);
 
         if(event == null)
             return new ModelAndView("/event_notfound");
@@ -52,27 +69,21 @@ public class EventController {
     @PostMapping("/luana")
     public ModelAndView editEvent(Event evento){
         User user = userRepository.findOne(1L);
-        repository.save(evento);
+        eventRepository.save(evento);
         return listUserEvents();
     }
 
-    //GET  /evento/{id}/delete - Exclui um evento e redireciona para a página de listagem de eventos do usuário
     @GetMapping("/{eventId}/delete")
     @ApiOperation(value="Exclui um evento e redireciona para a página de listagem de eventos do usuário.")
     public String deleteEvent(@PathVariable("eventId") Long eventId){
         return "Excluir o evento " + eventId;
     }
 
-
-
-
-    //POST /evento/cadastro - Cria um novo evento e redireciona para a página de detalhes do evento
     @PostMapping("/{eventId}")
     @ApiOperation(value="Atualiza os detalhes de um evento e redireciona para a página de detalhes do evento.")
     public String updateEvent(@PathVariable("eventId") Long eventId){
         return "Alterar o evento " + eventId;
     }
-
 
     @GetMapping("/cadastro")
     @ApiOperation(value="Página que exibe o formulário de cadastro de usuário (apenas se não está logado).")
@@ -84,7 +95,6 @@ public class EventController {
 
     }
 
-    //POST /evento/cadastro             - Página que cadsatra um novo evento
     @PostMapping("/cadastro")
     @ApiOperation(value="Página que cadsatra um novo usuário (apenas se não está logado) e redireciona para a página inicial do site.")
     public ModelAndView insertUser(EventInput eventInput, BindingResult bindingResult){
@@ -92,7 +102,7 @@ public class EventController {
         ModelAndView mv;
         User user = userRepository.findOne(1L);
         try {
-            repository.save(new Event(eventInput, user));
+            eventRepository.save(new Event(eventInput, user));
             mv = new ModelAndView("redirect:/evento");
         } catch (RuntimeException e){
             mv = this.showUserForm(eventInput);

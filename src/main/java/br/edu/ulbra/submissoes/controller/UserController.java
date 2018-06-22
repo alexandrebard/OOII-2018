@@ -3,6 +3,8 @@ package br.edu.ulbra.submissoes.controller;
 import br.edu.ulbra.submissoes.exception.UserException;
 import br.edu.ulbra.submissoes.input.UserInput;
 import br.edu.ulbra.submissoes.repository.RoleRepository;
+import br.edu.ulbra.submissoes.repository.UserRepository;
+import br.edu.ulbra.submissoes.service.SecurityService;
 import br.edu.ulbra.submissoes.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
     private UserService userService;
-
+    private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private SecurityService securityService;
+
+    @Autowired
+    private void securityService(SecurityService securityService){
+        this.securityService = securityService;
+    }
 
     @Autowired
     private void userService(UserService userService){
@@ -27,18 +35,21 @@ public class UserController {
     }
 
     @Autowired
+    private void userRepository(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
+
+    @Autowired
     private void roleRepository(RoleRepository roleRepository){
         this.roleRepository = roleRepository;
     }
 
-    //GET  /usuario/{id}                 - Página que lista os detalhes de um usuário e permite a edição mesmo.
     @GetMapping("/{userId}")
     @ApiOperation(value="Página que lista os detalhes de um usuário e permite a edição mesmo.")
     public String showUser(@PathVariable("userId") Long userId){
         return "Detalhar o usuário " + userId ;
     }
 
-    //GET  /usuario/cadastro             - Página que exibe o formulário de cadastro de usuário (apenas se não está logado)
     @GetMapping("/cadastro")
     @ApiOperation(value="Página que exibe o formulário de cadastro de usuário (apenas se não está logado).")
     public ModelAndView showUserForm(UserInput userInput){
@@ -50,7 +61,6 @@ public class UserController {
 
     }
 
-    //POST /usuario/cadastro             - Página que cadsatra um novo usuário (apenas se não está logado) e redireciona para a página inicial do site
     @PostMapping("/cadastro")
     @ApiOperation(value="Página que cadsatra um novo usuário (apenas se não está logado) e redireciona para a página inicial do site.")
     public ModelAndView insertUser(UserInput userInput){
