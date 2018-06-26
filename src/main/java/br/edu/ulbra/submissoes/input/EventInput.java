@@ -1,6 +1,7 @@
 package br.edu.ulbra.submissoes.input;
 
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -11,10 +12,13 @@ public class EventInput {
         @ApiModelProperty(example = "name1", notes = "name")
         private String name;
         @ApiModelProperty(example = "2018-06-20", notes = "Data Criação")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private Date creationDate;
         @ApiModelProperty(example = "2018-06-20", notes = "Data Inicio")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private Date startingDate;
         @ApiModelProperty(example = "2018-06-20", notes = "Data Fim")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private Date endingDate;
         @ApiModelProperty(example = "user1", notes = "Usuario responsavel")
         private String user;

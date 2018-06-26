@@ -19,27 +19,33 @@
         <strong>Edição de Evento</strong>
     </div>
     <div class="panel-body">
-        <form class="form-horizontal" th:object="${evento}" th:action="@{/evento/luana}" method="POST" style="margin: 10px">
+        <form class="form-horizontal" th:object="${evento}" th:action="@{/evento/{id}(id=${evento.id})}" method="POST" style="margin: 10px">
             <div class="form-group">
                 <fieldset>
                     <div class="form-group row">
                         <div class="col-md-1">
-                            <input type="text" class="form-control input-sm" id="id" th:field="*{id}" readOnly="readonly"/>
+                            <input type="hidden" class="form-control" th:field="*{id} "/><br>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label>Título</label>
+                        <label>Nome Evento:</label>
                         <input type="text" class="form-control input-sm" th:field="*{name}" maxlength="150" placeholder="Informe o nome do evento"/>
                     </div>
                     <div class="form-group row">
                         <label>Data início:</label>
                         <input type="date" class="form-control input-sm" th:field="*{startingDate}" />
                     </div>
+                    <div class="form-group row">
+                        <label>Data Fim:</label>
+                        <input type="date" class="form-control input-sm" th:field="*{endingDate}" />
+                    </div>
+
+                    <input type="hidden" id="user" name="user" th:value="${evento.user.username}" />
                 </fieldset>
             </div>
             <div class="form-group row">
-                <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
-                <a th:href="@{/}" class="btn btn-sm btn-default">Cancelar</a>
+                <button th:href="@{/evento}" type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                <a th:href="@{/evento}" class="btn btn-sm btn-default">Cancelar</a>
             </div>
         </form>
     </div>
