@@ -44,9 +44,11 @@ public class UserService {
 
         User user;
         if (isUpdate){
-            this.findById(userInput.getId());
+            user = this.findById(userInput.getId());
+        } else {
+            user = new User();
         }
-        user = modelMapper.map(userInput, User.class);
+        modelMapper.map(userInput, user);
         return userRepository.save(user);
 
     }
@@ -61,5 +63,10 @@ public class UserService {
     public void delete(Long userId) throws UserException{
         User user = findById(userId);
         userRepository.delete(user);
+    }
+
+    public UserInput loadToEdit(Long userId) throws UserException{
+        User user = this.findById(userId);
+        return modelMapper.map(user, UserInput.class);
     }
 }

@@ -1,6 +1,7 @@
 package br.edu.ulbra.submissoes.model;
 
 import br.edu.ulbra.submissoes.input.EventInput;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;

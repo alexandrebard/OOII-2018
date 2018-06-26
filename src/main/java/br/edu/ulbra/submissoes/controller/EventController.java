@@ -7,15 +7,12 @@ import br.edu.ulbra.submissoes.repository.EventRepository;
 import br.edu.ulbra.submissoes.repository.UserRepository;
 import br.edu.ulbra.submissoes.service.EventService;
 import br.edu.ulbra.submissoes.service.SecurityService;
+import br.edu.ulbra.submissoes.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.w3c.dom.events.EventException;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("evento")
@@ -23,7 +20,7 @@ public class EventController {
 
     private EventService eventService;
     private EventRepository eventRepository;
-    private UserRepository userRepository;
+    private UserService userService;
     private SecurityService securityService;
 
     @Autowired
@@ -37,8 +34,8 @@ public class EventController {
     }
 
     @Autowired
-    private void securityService(UserRepository userRepository){
-        this.userRepository = userRepository;
+    private void userService(UserService userService){
+        this.userService = userService;
     }
 
     @Autowired
@@ -49,7 +46,7 @@ public class EventController {
     @GetMapping
     @ApiOperation(value="Página que lista todos os eventos que o usuário criou.")
     public ModelAndView listUserEvents(){
-        ModelAndView  view = new ModelAndView("event/evento");
+        ModelAndView  view = new ModelAndView("event");
         view.addObject("eventos", eventRepository.findAll());
         return view;
     }
@@ -61,16 +58,9 @@ public class EventController {
         if(event == null)
             return new ModelAndView("/event_notfound");
 
-        ModelAndView  view = new ModelAndView("event/eventoid");
+        ModelAndView  view = new ModelAndView("edit");
         view.addObject("evento", event);
         return view;
-    }
-
-    @PostMapping("/luana")
-    public ModelAndView editEvent(Event evento){
-        User user = userRepository.findOne(1L);
-        eventRepository.save(evento);
-        return listUserEvents();
     }
 
     @GetMapping("/{eventId}/delete")
@@ -87,9 +77,9 @@ public class EventController {
 
     @GetMapping("/cadastro")
     @ApiOperation(value="Página que exibe o formulário de cadastro de usuário (apenas se não está logado).")
-    public ModelAndView showUserForm(EventInput event){
+    public ModelAndView showEventForm(EventInput event){
 
-        ModelAndView mv = new ModelAndView("event/cadastro");
+        ModelAndView mv = new ModelAndView("event/register");
         mv.addObject("event", event);
         return mv;
 
@@ -97,15 +87,16 @@ public class EventController {
 
     @PostMapping("/cadastro")
     @ApiOperation(value="Página que cadsatra um novo usuário (apenas se não está logado) e redireciona para a página inicial do site.")
-    public ModelAndView insertUser(EventInput eventInput, BindingResult bindingResult){
+    public ModelAndView insertEvent(EventInput eventInput, BindingResult bindingResult){
 
         ModelAndView mv;
-        User user = userRepository.findOne(1L);
+
         try {
+            User user = userService.findById(Long.valueOf(1));
             eventRepository.save(new Event(eventInput, user));
             mv = new ModelAndView("redirect:/evento");
-        } catch (RuntimeException e){
-            mv = this.showUserForm(eventInput);
+        } catch (Exception e){
+            mv = this.showEventForm(eventInput);
             mv.addObject("error", e.getMessage());
         }
         return mv;
