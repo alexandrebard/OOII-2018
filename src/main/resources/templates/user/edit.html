@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Dados do usuário</title>
+</head>
+<body>
+<h1>Editar Usuário <span th:text="${user.id}"></span></h1>
+<div th:if="${error}">
+    <div>
+        <span th:text="${error}" /><br />
+    </div>
+</div>
+<form class="form-inline" method="POST" th:object="${user}" th:action="@{/usuario/{id}(id=${user.id})}">
+    <input type="hidden" class="form-control" th:field="*{id}"/><br>
+    <input type="text" class="form-control" placeholder="Name" th:field="*{name}"/><br>
+    <input type="text" class="form-control" placeholder="Username" th:field="*{username}"/><br>
+    <input type="text" class="form-control" placeholder="E-Mail" th:field="*{email}"/><br>
+    <input type="password" class="form-control" placeholder="Password" th:field="*{password}"/><br>
+    <input type="password" class="form-control" placeholder="PasswordConfirm" th:field="*{passwordConfirm}"/><br>
+    <button type="submit" class="btn btn-primary">Adicionar</button>
+</form>
+</body>
+</html>
