@@ -20,27 +20,6 @@ public class UserInput {
     private String passwordConfirm;
 
 
-    /* @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @CreationTimestamp
-    private Date creationDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date startingDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date endingDate;
-
-    @ManyToOne(optional = false)
-    private User user;*/
-
 
     public Long getId() {
         return id;

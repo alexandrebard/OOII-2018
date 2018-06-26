@@ -44,10 +44,36 @@ public class UserController {
         this.roleRepository = roleRepository;
     }
 
+    @PostMapping("/{userId}")
+    @ApiOperation(value="Atualiza os detalhes de um usuário e redireciona para a página de detalhes do evento")
+    public ModelAndView updateUser(@PathVariable("userId") Long userId, UserInput userInput){
+
+        ModelAndView mv;
+
+        try {
+            userService.save(userInput, true);
+            mv = new ModelAndView("redirect:/evento");
+        } catch (UserException e){
+            mv = this.showUser(userId);
+            mv.addObject("error", e.getMessage());
+        }
+        return mv;
+    }
+
     @GetMapping("/{userId}")
     @ApiOperation(value="Página que lista os detalhes de um usuário e permite a edição mesmo.")
-    public String showUser(@PathVariable("userId") Long userId){
-        return "Detalhar o usuário " + userId ;
+    public ModelAndView showUser(@PathVariable("userId") Long userId){
+
+        ModelAndView mv;
+        mv = new ModelAndView("edit");
+
+        try {
+            mv.addObject("user", userService.loadToEdit(userId));
+        } catch (UserException e){
+            mv.addObject("error", e.getMessage());
+        }
+        return mv;
+
     }
 
     @GetMapping("/cadastro")

@@ -3,7 +3,7 @@ package br.edu.ulbra.submissoes.controller;
 import br.edu.ulbra.submissoes.model.Submission;
 import br.edu.ulbra.submissoes.repository.EventRepository;
 import br.edu.ulbra.submissoes.repository.RoleRepository;
-import br.edu.ulbra.submissoes.repository.SubmissionsRepository;
+import br.edu.ulbra.submissoes.repository.SubmissionRepository;
 
 import br.edu.ulbra.submissoes.repository.UserRepository;
 import br.edu.ulbra.submissoes.service.SecurityService;
@@ -24,7 +24,7 @@ public class SubmissionController {
     private SubmissionService submissionService;
     private UserRepository userRepository;
     private EventRepository eventRepository;
-    private SubmissionsRepository submissionRepository;
+    private SubmissionRepository submissionRepository;
     private SecurityService securityService;
 
     @Autowired
@@ -48,7 +48,7 @@ public class SubmissionController {
     }
 
     @Autowired
-    private void eventRepository(SubmissionsRepository submissionRepository){
+    private void eventRepository(SubmissionRepository submissionRepository){
         this.submissionRepository = submissionRepository;
     }
 

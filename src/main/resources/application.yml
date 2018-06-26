@@ -1,3 +1,8 @@
+logging:
+    level:
+        root: WARN
+        org.springframework.web.servlet.mvc: INFO
+        com.fasterxml.jackson.datatype: INFO
 info:
   app:
     name: "Submissões de Artigos"
@@ -17,7 +22,10 @@ spring:
   thymeleaf:
     mode: html
     cache: false
-
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+    date-format: yyyy-MM-dd
 management:
   endpoints:
     enabled-by-default: true
