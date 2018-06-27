@@ -28,14 +28,13 @@ public class User {
     @OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Event> events;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
     private List<Role> roles;
 
     public List<Submission> getSubmissions() {
         return submissions;
     }
-
 
     public User() {
     }
@@ -47,11 +46,15 @@ public class User {
      * @param name
      * @param password
      */
-    public User(String username, String email, String name, String password, List<Role> roles) {
+    public User(String username, String email, String name, String password) {
         this.username = username;
         this.email = email;
         this.name = name;
         this.password = password;
+    }
+
+    public User(String username, String email, String name, String password, List<Role> roles) {
+        this(username, email, name, password);
         this.roles = roles;
     }
 

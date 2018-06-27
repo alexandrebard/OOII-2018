@@ -13,10 +13,7 @@ public class SubmissionService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public SubmissionService(
-            SubmissionRepository submissionRepository,
-            ModelMapper modelMapper
-    ){
+    public SubmissionService(SubmissionRepository submissionRepository, ModelMapper modelMapper){
         this.submissionRepository = submissionRepository;
         this.modelMapper = modelMapper;
     }

@@ -1,6 +1,6 @@
 package br.edu.ulbra.submissoes.exception;
 
-public class EventException extends RuntimeException{
+public class EventException extends Exception{
 
     public EventException(){}
 

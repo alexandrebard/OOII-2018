@@ -20,10 +20,28 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
     private UserService userService;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
+    private SecurityService securityService;
 
     @Autowired
-    public UserController(UserService userService){
+    private void securityService(SecurityService securityService){
+        this.securityService = securityService;
+    }
+
+    @Autowired
+    private void userService(UserService userService){
         this.userService = userService;
+    }
+
+    @Autowired
+    private void userRepository(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
+
+    @Autowired
+    private void roleRepository(RoleRepository roleRepository){
+        this.roleRepository = roleRepository;
     }
 
     @PostMapping("/{userId}")
@@ -64,6 +82,7 @@ public class UserController {
 
         ModelAndView mv = new ModelAndView("user/register");
         mv.addObject("user", userInput);
+        mv.addObject("roles", roleRepository.findAll());
         return mv;
 
     }

@@ -19,6 +19,8 @@ public class UserInput {
     @ApiModelProperty(example = "password1", notes = "Confirmação de senha para cadastro/atualização")
     private String passwordConfirm;
 
+
+
     public Long getId() {
         return id;
     }

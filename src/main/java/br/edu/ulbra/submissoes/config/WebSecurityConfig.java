@@ -16,14 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
-    private String[] publicUrls = new String[] {
-            "/usuario/cadastro",
-            "/h2/**"
-            /*"**"*/
-    };
+    @Autowired
+    private CustomAuthenticationProvider authenticationProvider;
 
     private String[] adminUrls = new String[] {
-            /*"/admin/**"*/
+            "/admin/"
     };
 
     @Qualifier("userDetailsServiceImpl")
@@ -39,8 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(publicUrls).permitAll()
-                .antMatchers(adminUrls).hasRole("ADMIN")
+                .antMatchers("/", "/usuario/cadastro", "/about", "/webjars/**", "/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -50,19 +46,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .logout()
                 .permitAll()
                 .and()
-                .exceptionHandling()
-                .accessDeniedPage("/denied");
-
-        http.headers().frameOptions().disable();
+                .exceptionHandling();
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-    }
-
-    @Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager();
+        auth.authenticationProvider(authenticationProvider);
     }
 }

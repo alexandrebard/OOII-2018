@@ -22,15 +22,28 @@ import java.util.Date;
 @RequestMapping("evento")
 public class EventController {
 
-    private final EventService eventService;
-    private final SecurityService securityService;
+    private EventService eventService;
+    private EventRepository eventRepository;
+    private UserService userService;
+    private SecurityService securityService;
 
     @Autowired
-    public EventController(
-            EventService eventService,
-            SecurityService securityService
-    ){
+    private void setEventService(EventService eventService){
         this.eventService = eventService;
+    }
+
+    @Autowired
+    private void setEventRepository(EventRepository eventRepository){
+        this.eventRepository = eventRepository;
+    }
+
+    @Autowired
+    private void setUserService(UserService userService){
+        this.userService = userService;
+    }
+
+    @Autowired
+    private void setSecurityService(SecurityService securityService){
         this.securityService = securityService;
     }
 
@@ -38,26 +51,20 @@ public class EventController {
     @ApiOperation(value="Página que lista todos os eventos que o usuário criou.")
     public ModelAndView listUserEvents(){
         ModelAndView  view = new ModelAndView("event/evento");
-        view.addObject("eventos", securityService.findLoggedInUser().getEvents());
+        view.addObject("eventos", eventRepository.findAll());
         return view;
     }
 
     @GetMapping("/{eventId}")
     public ModelAndView showEvent(@PathVariable("eventId") Long eventId){
+        Event event = eventRepository.findOne(eventId);
 
-        Event event;
-        ModelAndView mv;
+        if(event == null)
+            return new ModelAndView("/event_notfound");
 
-        try {
-            event = eventService.findById(eventId);
-            mv = new ModelAndView("event/edit");
-            mv.addObject("evento", event);
-        } catch (EventException e){
-            mv = new ModelAndView("/event_notfound");
-            mv.addObject("error", e.getMessage());
-        }
-
-        return mv;
+        ModelAndView  view = new ModelAndView("event/edit");
+        view.addObject("evento", event);
+        return view;
     }
 
     @GetMapping("/{eventId}/delete")
@@ -70,10 +77,14 @@ public class EventController {
     @ApiOperation(value="Atualiza os detalhes de um evento e redireciona para a página de detalhes do evento.")
     public ModelAndView updateEvent(@PathVariable("eventId") Long eventId, EventInput eventInput){
 
+        System.out.println("ENTRA AQUI!!!!");
+
+        Date dataSalvamento = new Date();
+
         ModelAndView mv;
         try {
             eventInput.setId(eventId);
-            eventService.save(eventInput, true);
+            eventService.update(eventInput);
             mv = new ModelAndView("redirect:/evento");
         } catch (EventException e){
             mv = this.showEvent(eventId);
@@ -92,20 +103,22 @@ public class EventController {
 
     }
 
-    @PostMapping
-    @ApiOperation(value="Página que cadsatra um novo evento (apenas se está logado) e redireciona para a lista de eventos.")
+    @PostMapping("/cadastro")
+    @ApiOperation(value="Página que cadsatra um novo usuário (apenas se não está logado) e redireciona para a página inicial do site.")
     public ModelAndView insertEvent(EventInput eventInput, BindingResult bindingResult){
 
         ModelAndView mv;
 
         try {
-            eventService.save(eventInput, false);
-            mv = new ModelAndView("redirect:/evento");
+            User user = userService.findById(Long.valueOf(1));
+            Event event = new Event(eventInput, user);
+            event.setCreationDate(new Date());
+            eventRepository.save(new Event(eventInput, user));
+            mv = new ModelAndView("redirect:/event/evento");
         } catch (Exception e){
             mv = this.showEventForm(eventInput);
             mv.addObject("error", e.getMessage());
         }
-
         return mv;
     }
 }

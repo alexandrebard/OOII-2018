@@ -3,110 +3,49 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Login</title>
-	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<style>
-		.form-inline{
-			padding: 0 0 0 20px;
-		}
-		
-		input[type=text] {
-			width: 275px;
-			padding: 8px 10px;
-			margin: 8px 0;
-			box-sizing: border-box;
-			border-radius: 8px;
-			outline:none;
-			float: right;
-		}
-		
-		input[type=date] {
-			width: 150px;
-			padding: 6px 10px;
-			margin: 8px 0;
-			box-sizing: border-box;
-			border-radius: 8px;
-			outline:none;
-		}
-		input[type=password] {
-			width: 150px;
-			padding: 6px 10px;
-			margin: 8px 0;
-			box-sizing: border-box;
-			border-radius: 8px;
-			outline:none;
-		}
-		
-		.btn{
-            padding:8px 8px 8px 8px;
-            -moz-border-radius: 8px;
-            -webkit-border-radius: 8px;
-            -moz-box-shadow: 0 1px 3px #008272;
-            -webkit-box-shadow: 0 1px 3px #008272;
-            border-bottom: 1px solid #008272;
-            outline:none;
-            position:relative;
-            margin-left: 5px;
-			margin-top: 5px;
-			width: 90%;
-			text-transform: uppercase;
-			font: 12px arial,sans-serif;
-			background-color: #369286;
-			color: #fff;
-        }
-		
-		.btn:before{
-			font-family: FontAwesome;
-			content: "\f00c";
-			margin-right: 3px;
-			font-size: 15px;
-		}
-		
-        .btn:active{
-			top: 1px;
-            left:1px;
-			background-color: #008272;
-        }
-		
-		.bloco1{
-			border: 1px solid #cacaca;
-			margin: 0 auto;
-			width: 400px;
-			margin-top: 60px;
-			font: 13px arial,sans-serif;
-			height: 250px;
-			background-color: #cacaca2b;
-		}
-		
-		h1{
-			margin-left: 20px;
-			padding-bottom: 5px;
-			border-bottom: 2.5px solid #008272;
-			width:90%;
-			font-weight: 100;
-			font: 20px arial,sans-serif;
-			margin-bottom: 0px;
-		}
-	</style>
-	
 </head>
 <body>
-<div class="bloco1">
-	<h1>Login</h1>
-	<div th:if="${error}">
-		<div>
-			<span th:text="${error}" /><br />
-		</div>
-	</div>
-	<form class="form-inline" method="POST" action="/login}">
-		<div style="display: inline-block;">
-			<div class="desc" style="float: left; padding-top: 15px; width: 50px;">Nome: </div><input type="text" class="form-control" placeholder="Username"/><br>
-		</div>
-		<div style="display: inline-block;">
-			<div class="desc" style="float: left; padding-top: 15px; width: 50px;">Senha: </div><input type="password" class="form-control" placeholder="Password"/><br>
-		</div>
-		<button type="submit" class="btn btn-primary">Adicionar</button>
-	</form>
-</div>
-</body>
+<h1>Login</h1>
+    <div th:if="${error}">
+        <div>
+            <span th:text="${error}" /><br />
+        </div>
+    </div>
+    <form id="login-form" role="form" style="display: block;" th:action="@{/login}" method="post">
+        <fieldset>
+            <h1>Please Sign In</h1>
+
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">
+                    Invalid username and password.
+                </div>
+            </div>
+            <div th:if="${param.logout}">
+                <div class="alert alert-info">
+                    You have been logged out.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="username" id="username" class="form-control input-lg"
+                       placeholder="UserName" required="true" autofocus="true"/>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" id="password" class="form-control input-lg"
+                       placeholder="Password" required="true"/>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <div class="row">
+        <a  th:href="@{/usuario/cadastro}">Cadastre-se</a>
+    </div>
+    </body>
 </html>
