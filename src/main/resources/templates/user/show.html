@@ -3,16 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Dados do usuário</title>
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		.form-inline{
+			padding: 0 0 0 20px;
+		}
+		
+		.desc{
+			padding-top: 16px;
+			display: inline;
+			padding-left: 20px;
+		}
+		
+		.desc p{
+			display: inline-block;
+			
+		}
+		
+		h1{
+			margin-left: 20px;
+			padding-bottom: 5px;
+			border-bottom: 2.5px solid #008272;
+			width:90%;
+			font-weight: 100;
+			font: 20px arial,sans-serif;
+			margin-bottom: 0px;
+		}
+		
+		.bloco1{
+			border: 1px solid #cacaca;
+			margin: 0 auto;
+			width: 400px;
+			margin-top: 60px;
+			font: 13px arial,sans-serif;
+			min-height: 300px;
+			background-color: #cacaca2b;
+		}
+		
+	</style>
+	
 </head>
 <body>
-
+<div class="bloco1">
+	<h1>Resultados</h1>
     <p th:text="${error}" th:if="${error}" />
     <div th:if="${user}">
-        <p th:text="${user.id}"></p>
-        <p th:text="${user.email}"></p>
-        <p th:text="${user.username}"></p>
-        <p th:text="${user.nome}"></p>
+        <div>
+		<div class="desc">ID: <p th:text="${user.id}">123</p>
+        </div></div>
+	
+		 <div>
+		 <div class="desc">E-mail: <p th:text="${user.email}">email</p>
+        </div></div>
+			
+		 <div>
+		 <div class="desc">Usuário: <p th:text="${user.username}">usuario</p>
+        </div></div>
+			
+		 <div>
+		 <div class="desc">Nome: <p th:text="${user.nome}">nome</p>
+		</div></div>
     </div>
-
+</div>
 </body>
 </html>
