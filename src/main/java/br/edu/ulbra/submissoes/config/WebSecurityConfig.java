@@ -17,12 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     private String[] publicUrls = new String[] {
-            /*"/usuario/novo",
-            "/css/**",
-            "/js/**",
-            "/images/**",
-            "/h2/**"*/
-            "**"
+            "/usuario/cadastro",
+            "/h2/**"
+            /*"**"*/
     };
 
     private String[] adminUrls = new String[] {
@@ -55,6 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/denied");
+
+        http.headers().frameOptions().disable();
     }
 
     @Autowired
