@@ -14,6 +14,11 @@
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
 <body>
+<div th:if="${error}">
+    <div>
+        <span th:text="${error}" /><br />
+    </div>
+</div>
 <div class="panel panel-default">
     <div class="panel-heading">
         <strong>Edição de Evento</strong>

@@ -47,11 +47,12 @@ public class User {
      * @param name
      * @param password
      */
-    public User(String username, String email, String name, String password) {
+    public User(String username, String email, String name, String password, List<Role> roles) {
         this.username = username;
         this.email = email;
         this.name = name;
         this.password = password;
+        this.roles = roles;
     }
 
     public void setSubmissions(List<Submission> submissions) {

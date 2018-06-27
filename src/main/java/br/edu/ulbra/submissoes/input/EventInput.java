@@ -1,10 +1,12 @@
 package br.edu.ulbra.submissoes.input;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+@ApiModel(description = "Informações do Evento")
 public class EventInput {
 
         @ApiModelProperty(example = "1", notes = "Identificador")

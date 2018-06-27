@@ -11,10 +11,11 @@
         <span th:text="${error}" /><br />
     </div>
 </div>
-<form class="form-inline" method="POST" action="/login}">
-    <input type="text" class="form-control" placeholder="Username"/><br>
-    <input type="password" class="form-control" placeholder="Password"/><br>
+<form class="form-inline" method="POST" action="/login">
+    <input type="text" class="form-control" placeholder="Username" name="username" id="username"/><br>
+    <input type="password" class="form-control" placeholder="Password" name="password" id="password"/><br>
     <button type="submit" class="btn btn-primary">Adicionar</button>
+    <a href="/usuario/cadastro">Cadastrar-se</a>
 </form>
 </body>
 </html>

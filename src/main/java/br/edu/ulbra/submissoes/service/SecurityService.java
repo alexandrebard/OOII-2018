@@ -18,17 +18,13 @@ public class SecurityService {
 	private UserRepository userRepository;
 
 	@Autowired
-	private void autenticationManager(AuthenticationManager autenticationManager){
-		this.authenticationManager = autenticationManager;
-	}
-
-	@Autowired
-	private void userDetailsService(UserDetailsService userDetailsService){
+	public SecurityService(
+			AuthenticationManager authenticationManager,
+			UserDetailsService userDetailsService,
+			UserRepository userRepository
+	){
+		this.authenticationManager = authenticationManager;
 		this.userDetailsService = userDetailsService;
-	}
-
-	@Autowired
-	private void userRepository(UserRepository userRepository){
 		this.userRepository = userRepository;
 	}
 

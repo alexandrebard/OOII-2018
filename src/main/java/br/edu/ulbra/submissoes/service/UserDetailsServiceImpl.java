@@ -17,8 +17,12 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+	private final UserRepository userRepository;
+
 	@Autowired
-	private UserRepository userRepository;
+	public UserDetailsServiceImpl(UserRepository userRepository){
+	    this.userRepository = userRepository;
+    }
 
 	@Override
 	@Transactional(readOnly = true)
@@ -32,6 +36,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
 	}
-
-
 }
