@@ -15,17 +15,28 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Date;
 
 @RestController
 @RequestMapping("evento")
-public class EventController {
+public class EventController extends BaseController {
 
     private EventService eventService;
     private EventRepository eventRepository;
     private UserService userService;
     private SecurityService securityService;
+
+    public EventController(UserService userService, EventService eventService,
+                           EventRepository eventRepository, UserService userService1,
+                           SecurityService securityService) {
+        super(userService);
+        this.eventService = eventService;
+        this.eventRepository = eventRepository;
+        this.userService = userService1;
+        this.securityService = securityService;
+    }
 
     @Autowired
     private void setEventService(EventService eventService){
@@ -77,8 +88,6 @@ public class EventController {
     @ApiOperation(value="Atualiza os detalhes de um evento e redireciona para a página de detalhes do evento.")
     public ModelAndView updateEvent(@PathVariable("eventId") Long eventId, EventInput eventInput){
 
-        System.out.println("ENTRA AQUI!!!!");
-
         Date dataSalvamento = new Date();
 
         ModelAndView mv;
@@ -105,16 +114,16 @@ public class EventController {
 
     @PostMapping("/cadastro")
     @ApiOperation(value="Página que cadsatra um novo usuário (apenas se não está logado) e redireciona para a página inicial do site.")
-    public ModelAndView insertEvent(EventInput eventInput, BindingResult bindingResult){
+    public ModelAndView insertEvent(EventInput eventInput, BindingResult bindingResult,
+                                    Principal principal){
 
         ModelAndView mv;
 
         try {
-            User user = userService.findById(Long.valueOf(1));
-            Event event = new Event(eventInput, user);
+            Event event = new Event(eventInput, getCurrentUser(principal));
             event.setCreationDate(new Date());
-            eventRepository.save(new Event(eventInput, user));
-            mv = new ModelAndView("redirect:/event/evento");
+            eventRepository.save(event);
+            mv = new ModelAndView("redirect:/home");
         } catch (Exception e){
             mv = this.showEventForm(eventInput);
             mv.addObject("error", e.getMessage());

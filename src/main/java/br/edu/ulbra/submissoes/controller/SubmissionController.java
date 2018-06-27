@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/submissoes")
-public class SubmissionController {
+public class SubmissionController extends BaseController{
 
     private SubmissionService submissionService;
     private UserRepository userRepository;
@@ -27,29 +27,18 @@ public class SubmissionController {
     private SubmissionRepository submissionRepository;
     private SecurityService securityService;
 
-    @Autowired
-    private void securityService(SecurityService securityService){
-        this.securityService = securityService;
-    }
-
-    @Autowired
-    private void submissionService(SubmissionService submissionService){
+    public SubmissionController(UserService userService,
+                                SubmissionService submissionService,
+                                UserRepository userRepository,
+                                EventRepository eventRepository,
+                                SubmissionRepository submissionRepository,
+                                SecurityService securityService) {
+        super(userService);
         this.submissionService = submissionService;
-    }
-
-    @Autowired
-    private void userRepository(UserRepository userRepository){
         this.userRepository = userRepository;
-    }
-
-    @Autowired
-    private void eventRepository(EventRepository eventRepository){
         this.eventRepository = eventRepository;
-    }
-
-    @Autowired
-    private void eventRepository(SubmissionRepository submissionRepository){
         this.submissionRepository = submissionRepository;
+        this.securityService = securityService;
     }
 
     @GetMapping("/")
