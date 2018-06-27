@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Novo Evento</title>
+</head>
+<body>
+<h1>Nova Submissão</h1>
+<div th:if="${error}">
+    <div>
+        <span th:text="${error}" /><br />
+    </div>
+</div>
+<form class="form-inline" method="POST" th:object="${submission}" th:action="@{/evento/{id}/submissoes/add (id=${event})}">
+    <input type="text" class="form-control" placeholder="Titulo" th:field="*{title}"/>
+    <input type="text" class="form-control" placeholder="Sinopise" th:field="*{synopsis}"/>
+    <input type="text" class="form-control" placeholder="Arquivo" th:field="*{file}"/>
+    <button type="submit" class="btn btn-primary">Adicionar</button>
+</form>
+</body>
+</html>

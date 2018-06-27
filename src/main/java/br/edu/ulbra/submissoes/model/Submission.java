@@ -1,7 +1,11 @@
 package br.edu.ulbra.submissoes.model;
 
+import br.edu.ulbra.submissoes.input.SubmissionInput;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 public class Submission {
@@ -16,8 +20,8 @@ public class Submission {
     @Column(nullable = false)
     private String synopsis;
     
-    @Column(nullable = false)
-    private Timestamp sendDate;
+    @CreationTimestamp
+    private Date sendDate;
 
     @Column(nullable = false)
     private String file;
@@ -27,6 +31,17 @@ public class Submission {
 
     @ManyToOne(optional = false)
     private User user;
+
+    public Submission() {
+    }
+
+    public Submission(Event event, User user, SubmissionInput input) {
+        this.user = user;
+        this.event = event;
+        this.title = input.getTitle();
+        this.synopsis = input.getSynopsis();
+        this.file = input.getFile();
+    }
 
     public Event getEvent() {
         return event;
@@ -67,12 +82,12 @@ public class Submission {
     public void setSynopsis(String synopsis) {
         this.synopsis = synopsis;
     }
-    
-    public Timestamp getSendDate() {
+
+    public Date getSendDate() {
         return sendDate;
     }
 
-    public void setSendDate(Timestamp sendDate) {
+    public void setSendDate(Date sendDate) {
         this.sendDate = sendDate;
     }
 

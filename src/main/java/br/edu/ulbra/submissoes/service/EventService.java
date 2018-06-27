@@ -39,11 +39,8 @@ public class EventService {
 
     }
 
-    public Event findById(Long userId) throws EventException {
-        Event user = eventRepository.findOne(userId);
-        if (user == null )
-            throw new EventException("Usuário não encontrado");
-        return user;
+    public Event findById(Long eventId) {
+        return eventRepository.findOne(eventId);
     }
 
     public void delete(Long userId) throws EventException{
